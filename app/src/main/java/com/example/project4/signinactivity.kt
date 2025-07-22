@@ -24,7 +24,7 @@ class SignUpActivity : ComponentActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        nameEditText = findViewById(R.id.editTextNameSignUp) // Add these IDs in your XML
+        nameEditText = findViewById(R.id.editTextNameSignUp)
         emailEditText = findViewById(R.id.editTextEmailSignUp)
         passwordEditText = findViewById(R.id.editTextPasswordSignUp)
         confirmPasswordEditText = findViewById(R.id.editTextConfirmPasswordSignUp)
@@ -58,17 +58,11 @@ class SignUpActivity : ComponentActivity() {
                         firebaseUser?.updateProfile(profileUpdates)
                             ?.addOnCompleteListener { profileTask ->
                                 if (profileTask.isSuccessful) {
-                                    // Optionally, save additional user info to Realtime Database or Firestore
-                                    // For example, if using Realtime Database:
-                                    // val database = FirebaseDatabase.getInstance().getReference("users")
-                                    // val userId = firebaseUser.uid
-                                    // val userMap = hashMapOf("name" to name, "email" to email)
-                                    // database.child(userId).setValue(userMap)
 
                                     Toast.makeText(this, "Account created.", Toast.LENGTH_SHORT).show()
-                                    // Navigate to LoginActivity or directly to MainActivity
+
                                     startActivity(Intent(this, LoginActivity::class.java))
-                                    finishAffinity() // Finish this and previous activities in the task
+                                    finishAffinity()
                                 }
                             }
                     } else {

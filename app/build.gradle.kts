@@ -39,22 +39,6 @@ android {
     buildFeatures {
         compose = true
     }
-    buildscript{
-        repositories{
-            google()
-            mavenCentral()
-        }
-        dependencies{
-            classpath("com.android.tools.build:gradle:7.4.2")
-            classpath("com.google.gms:google-services:4.4.3")
-        }
-    }
-    allprojects{
-        repositories{
-            google()
-            mavenCentral()
-        }
-    }
 }
 
 dependencies {
@@ -71,9 +55,10 @@ dependencies {
     implementation("com.google.firebase:firebase-appcheck:18.0.0")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
-    implementation("com.google.firebase.appcheck.recaptcha")
 
     implementation("com.google.android.material:material:1.12.0")
+    implementation("com.google.firebase:firebase-appcheck:18.0.0")
+    implementation("com.google.firebase:firebase-appcheck-debug:18.0.0")
 
 
     implementation(libs.androidx.core.ktx)
