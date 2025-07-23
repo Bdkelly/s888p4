@@ -44,10 +44,9 @@ class LoginActivity : ComponentActivity() {
                         val user = mAuth.currentUser
                         Toast.makeText(this, "Authentication successful.", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, MainActivity::class.java)
-                        // Pass user info if needed, e.g., display name or email
                         intent.putExtra("USER_NAME", user?.displayName ?: user?.email)
                         startActivity(intent)
-                        finish() // Finish LoginActivity
+                        finish()
                     } else {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(baseContext, "Authentication failed: ${task.exception?.message}",

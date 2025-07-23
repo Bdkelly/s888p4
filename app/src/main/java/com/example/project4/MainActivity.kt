@@ -1,6 +1,7 @@
 package com.example.project4
 
 import android.content.Intent
+import androidx.activity.OnBackPressedCallback
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
@@ -28,12 +29,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main) // Use the DrawerLayout XML
+        setContentView(R.layout.activity_main)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
         mAuth = FirebaseAuth.getInstance()
         val currentUser = mAuth.currentUser
 
-        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -69,16 +72,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .commit()
             navigationView.setCheckedItem(R.id.nav_items_list)
         }
+        val onBackPressedCallback = object : OnBackPressedCallback(true) { // true = enabled by default
+            override fun handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    if (isEnabled) { // Check if it's still enabled
+                        isEnabled = false // Disable this callback
+                        onBackPressedDispatcher.onBackPressed()
+                    }
+                }
+            }
+
+        }
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var selectedFragment: Fragment? = null
         when (item.itemId) {
             R.id.nav_items_list -> {
-                selectedFragment = ItemsListFragment() // Create this Fragment
+                selectedFragment = ItemsListFragment()
             }
             R.id.nav_account -> {
-                selectedFragment = AccountFragment() // Create this Fragment
+                selectedFragment = AccountFragment()
                 Toast.makeText(this, "Account selected", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_logout -> {
@@ -88,9 +105,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()
-                return true // Or false, depending if you want to close drawer
+                return true
             }
-            // Add more cases for other navigation items
         }
 
         if (selectedFragment != null) {
@@ -101,13 +117,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressedDispatcher.onBackPressed()
-        }
     }
 }

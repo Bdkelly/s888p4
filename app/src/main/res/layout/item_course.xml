@@ -2,9 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="16dp"
+    android:gravity="center_vertical"
     android:background="?android:attr/selectableItemBackground">
+
+<ImageButton
+    android:src="@drawable/trash"
+    android:id="@+id/buttonDeleteItem"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:scaleType="fitEnd"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:layout_marginEnd="8dp"/>
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textViewCourseName"
@@ -12,14 +28,14 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:text="Course Name" />
+        android:text="@string/course_name"/>
 
     <TextView
-        android:id="@+id/textViewCourseInstructor"
         android:layout_width="match_parent"
+        android:id="@+id/textViewCourseInstructor"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:text="Instructor" />
+        android:text="Instructor"/>
+    </LinearLayout>
 
-    <!-- Add more TextViews for other details -->
 </LinearLayout>

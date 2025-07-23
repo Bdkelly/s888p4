@@ -3,9 +3,8 @@ package com.example.project4.adapters // Create an adapters package
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
-import androidx.compose.foundation.layout.size
-import androidx.compose.ui.semantics.text
 import androidx.recyclerview.widget.RecyclerView
 import com.example.project4.R
 import com.example.project4.models.Course
@@ -13,10 +12,10 @@ import com.example.project4.models.Course
 class CourseAdapter(private val courses: MutableList<Course>) :
     RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
 
-    // Listener for item clicks (optional)
     interface OnItemClickListener {
         fun onItemClick(course: Course)
-        fun onItemLongClick(course: Course, position: Int) // For delete
+        fun onItemLongClick(course: Course, position: Int)
+        fun onDeleteClick(course: Course, position: Int)
     }
     private var listener: OnItemClickListener? = null
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -46,21 +45,20 @@ class CourseAdapter(private val courses: MutableList<Course>) :
         if (position >= 0 && position < courses.size) {
             courses.removeAt(position)
             notifyItemRemoved(position)
-            // If you want to notify range change for subsequent items:
-            // notifyItemRangeChanged(position, courses.size - position)
         }
     }
 
     fun updateCourses(newCourses: List<Course>) {
         courses.clear()
         courses.addAll(newCourses)
-        notifyDataSetChanged() // Or use DiffUtil for better performance
+        notifyDataSetChanged()
     }
 
 
     inner class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.textViewCourseName)
         private val instructorTextView: TextView = itemView.findViewById(R.id.textViewCourseInstructor)
+        private val deleteButton: ImageButton = itemView.findViewById(R.id.buttonDeleteItem)
 
         init {
             itemView.setOnClickListener {
@@ -75,6 +73,12 @@ class CourseAdapter(private val courses: MutableList<Course>) :
                     listener?.onItemLongClick(courses[position], position)
                 }
                 true // Consume the long click
+            }
+            deleteButton.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener?.onDeleteClick(courses[position], position)
+                }
             }
         }
 

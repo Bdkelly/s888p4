@@ -12,6 +12,10 @@
     <style name="Theme.Project4.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Project4.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Project4.NoActionBar" parent="Theme.MaterialComponents.DayNight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
 
         </resources>
